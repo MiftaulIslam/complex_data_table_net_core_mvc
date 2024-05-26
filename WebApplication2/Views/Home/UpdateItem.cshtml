@@ -1,0 +1,87 @@
+﻿@model WebApplication2.Models.Test
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+
+<h4>Test</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="updateForm" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="RegionalOffice" class="control-label"></label>
+                <input asp-for="RegionalOffice" class="form-control" />
+                <span asp-validation-for="RegionalOffice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegionalStore" class="control-label"></label>
+                <input asp-for="RegionalStore" class="form-control" />
+                <span asp-validation-for="RegionalStore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DscCtgA" class="control-label"></label>
+                <input asp-for="DscCtgA" class="form-control" />
+                <span asp-validation-for="DscCtgA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DscCtgB" class="control-label"></label>
+                <input asp-for="DscCtgB" class="form-control" />
+                <span asp-validation-for="DscCtgB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UscCtgB" class="control-label"></label>
+                <input asp-for="UscCtgB" class="form-control" />
+                <span asp-validation-for="UscCtgB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById('updateForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Create a FormData object
+            let formData = new FormData(this);
+
+            // Display the FormData object in the console (for testing purposes)
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            // Send the FormData object via AJAX
+            fetch('/Home/ConfirmUpdateItem', {
+                method: 'Put',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    // Optionally, you can perform actions based on the response data
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+    </script>
+}

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WebApplication2.Models.Test>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Regional Office</th>
+            <th>Regional Store</th>
+            <th colspan="2">District Sales Centre</th>
+            <th>Upzilla Sales Centre</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>ctgA</th>
+            <th>ctgB</th>
+            <th>ctgB</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegionalOffice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegionalStore)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var item1 in item.DscCtgAarray)
+                        {
+                            <li>
+                                @item1
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var item1 in item.DscCtgBarray)
+                        {
+                            <li>
+                                @item1
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var item1 in item.UscCtgBarray)
+                        {
+                            <li>
+                                @item1
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <a asp-action="UpdateItem" asp-route-id="@item.Id">Edit</a> |
+                    <form asp-route-id="@item.Id" asp-action="Delete" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
